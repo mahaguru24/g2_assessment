@@ -1834,10 +1834,273 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ModifyMatrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModifyMatrix */ "./resources/js/components/ModifyMatrix.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Matrix',
+  components: {
+    ModifyMatrix: _ModifyMatrix__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: {
+    label: {
+      type: String,
+      "default": 'Matrix'
+    },
+    matrix: {
+      type: Array,
+      required: true
+    },
+    matrixRowAndColCount: {
+      type: Object
+    },
+    index: {
+      type: Number,
+      required: false
+    },
+    validated: {
+      type: Boolean,
+      "default": false
+    },
+    editable: {
+      type: Boolean,
+      "default": false
+    }
+  },
+  methods: {
+    setMatrixValue: function setMatrixValue(rowNumber, colNumber, value) {
+      this.$emit('setMatrixValue', {
+        rowNumber: rowNumber,
+        colNumber: colNumber,
+        value: value,
+        matrixIndex: this.index
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Matrix */ "./resources/js/components/Matrix.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var getEmptyMatrix = function getEmptyMatrix(row, col) {
+  var matrix = [];
+
+  for (var i = 0; i <= row - 1; i++) {
+    matrix[i] = [];
+
+    for (var j = 0; j <= col - 1; j++) {
+      if (matrix[i][j] === undefined) {
+        matrix[i][j] = j + 1;
+      }
+    }
+  }
+
+  return matrix;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'MatrixMultiply',
+  components: {
+    Matrix: _Matrix__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      matrices: [getEmptyMatrix(3, 3), getEmptyMatrix(3, 3)],
+      multipliedMatrix: []
+    };
+  },
+  computed: {
+    validateMatrices: function validateMatrices() {
+      var matrix1 = this.getMatrixRowAndColCount(this.matrices[0]);
+      var matrix2 = this.getMatrixRowAndColCount(this.matrices[1]);
+      console.log(matrix1, matrix2, matrix1.rowCount === matrix2.colCount);
+      return matrix1.rowCount === matrix2.colCount;
+    }
+  },
+  methods: {
+    multiply: function multiply() {
+      var _this = this;
+
+      if (this.validateMatrices) {
+        axios.create({
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          timeout: 6000
+        }).post('/api/matrix/multiply', {
+          matrices: this.matrices
+        }).then(function (res) {
+          console.log(res.data.data);
+          _this.multipliedMatrix = res.data.data;
+        });
+      }
+    },
+    updateMatrixStructure: function updateMatrixStructure(_ref) {
+      var rowCount = _ref.rowCount,
+          colCount = _ref.colCount,
+          matrixIndex = _ref.matrixIndex;
+      this.matrices = this.matrices.map(function (el, index) {
+        if (index === matrixIndex) {
+          return getEmptyMatrix(rowCount, colCount);
+        }
+
+        return el;
+      });
+    },
+    validateMatrix: function validateMatrix(matrix) {
+      for (var i = 0; i <= matrix.length - 1; i++) {
+        for (var j = 0; j <= matrix[i].length - 1; j++) {
+          if (typeof matrix[i][j] !== 'number') {
+            console.log(_typeof(matrix[i][j]), matrix[i][j]);
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
+    getMatrixRowAndColCount: function getMatrixRowAndColCount(matrix) {
+      var rowCount = matrix.length;
+      return {
+        rowCount: rowCount,
+        colCount: rowCount > 0 ? matrix[0].length : 0
+      };
+    },
+    setMatrixValue: function setMatrixValue(_ref2) {
+      var rowNumber = _ref2.rowNumber,
+          colNumber = _ref2.colNumber,
+          value = _ref2.value,
+          matrixIndex = _ref2.matrixIndex;
+      // console.log(this.matrices)
+      this.matrices = this.matrices.map(function (el, index) {
+        if (index === matrixIndex) {
+          el = el.map(function (row, rowIndex) {
+            if (rowIndex === rowNumber) {
+              row = row.map(function (col, colIndex) {
+                if (colIndex === colNumber) {
+                  col = Number(value);
+                  console.log('changing');
+                }
+
+                return col;
+              });
+            }
+
+            return row;
+          });
+        }
+
+        return el;
+      }); // console.log(this.matrices)
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1850,8 +2113,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'ModifyMatrix',
+  props: {
+    index: {
+      type: Number,
+      required: true
+    },
+    matrixRowAndColCount: {
+      type: Object,
+      required: true
+    }
+  },
+  created: function created() {
+    this.rowCount = this.matrixRowAndColCount.rowCount;
+    this.colCount = this.matrixRowAndColCount.colCount;
+  },
+  data: function data() {
+    return {
+      rowCount: 0,
+      colCount: 0
+    };
+  },
+  methods: {
+    submitForm: function submitForm(event) {
+      event.preventDefault();
+      this.$emit('updateMatrixStructure', {
+        rowCount: this.rowCount,
+        colCount: this.colCount,
+        matrixIndex: this.index
+      });
+      console.log('submitForm', this.rowCount, this.colCount);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_MatrixMultiply__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/MatrixMultiply */ "./resources/js/components/MatrixMultiply.vue");
+//
+//
+//
+//
+//
+
 var default_layout = "default";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    MatrixMultiply: _components_MatrixMultiply__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   computed: {},
   data: function data() {
     return {
@@ -19288,6 +19628,123 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./resources/js/components/Matrix.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Matrix.vue ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Matrix.vue?vue&type=template&id=06317d6c&scoped=true& */ "./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true&");
+/* harmony import */ var _Matrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Matrix.vue?vue&type=script&lang=js& */ "./resources/js/components/Matrix.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _Matrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "06317d6c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Matrix.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/MatrixMultiply.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/MatrixMultiply.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true& */ "./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true&");
+/* harmony import */ var _MatrixMultiply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MatrixMultiply.vue?vue&type=script&lang=js& */ "./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _MatrixMultiply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "2e6fb1b0",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/MatrixMultiply.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ModifyMatrix.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/ModifyMatrix.vue ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true& */ "./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true&");
+/* harmony import */ var _ModifyMatrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModifyMatrix.vue?vue&type=script&lang=js& */ "./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _ModifyMatrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "246310f4",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ModifyMatrix.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/views/app.vue":
 /*!************************************!*\
   !*** ./resources/js/views/app.vue ***!
@@ -19327,6 +19784,54 @@ component.options.__file = "resources/js/views/app.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Matrix.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Matrix.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Matrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Matrix.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Matrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MatrixMultiply.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModifyMatrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModifyMatrix.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModifyMatrix_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/views/app.vue?vue&type=script&lang=js&":
 /*!*************************************************************!*\
   !*** ./resources/js/views/app.vue?vue&type=script&lang=js& ***!
@@ -19340,6 +19845,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_app_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./app.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_app_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Matrix_vue_vue_type_template_id_06317d6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Matrix.vue?vue&type=template&id=06317d6c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiply_vue_vue_type_template_id_2e6fb1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true& ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModifyMatrix_vue_vue_type_template_id_246310f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true&");
+
 
 /***/ }),
 
@@ -19360,6 +19916,303 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Matrix.vue?vue&type=template&id=06317d6c&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "py-4" },
+    [
+      _c("div", { staticClass: "text-xl py-3 " }, [
+        _vm._v(
+          "\n            " +
+            _vm._s(_vm.label) +
+            _vm._s(_vm.editable ? _vm.index + 1 : "") +
+            "\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _vm.editable
+        ? _c("ModifyMatrix", {
+            staticClass: "p-4 shadow rounded",
+            attrs: {
+              matrixRowAndColCount: _vm.matrixRowAndColCount,
+              index: _vm.index
+            },
+            on: {
+              updateMatrixStructure: function(val) {
+                return _vm.$emit("updateMatrixStructure", val)
+              }
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          class: {
+            "border border-1 border-red-600": !_vm.validated && _vm.editable
+          }
+        },
+        _vm._l(_vm.matrix, function(row, rowNumber) {
+          return _c(
+            "div",
+            { key: _vm.index + "-row-" + rowNumber, staticClass: "flex" },
+            _vm._l(row, function(col, colNumber) {
+              return _c(
+                "div",
+                {
+                  key: _vm.index + "-col-" + colNumber,
+                  staticClass: " m-2 p-2 shadow h-18 w-18 flex justify-center"
+                },
+                [
+                  _c("div", { staticClass: "self-center " }, [
+                    _c("label", [
+                      _c("input", {
+                        staticClass: "w-12 text-center",
+                        class: { "border border-1 border-red-600": col === "" },
+                        attrs: {
+                          type: "number",
+                          name: _vm.index + "-number-" + colNumber,
+                          min: "0"
+                        },
+                        domProps: { value: col },
+                        on: {
+                          input: function(event) {
+                            _vm.setMatrixValue(
+                              rowNumber,
+                              colNumber,
+                              event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]
+              )
+            }),
+            0
+          )
+        }),
+        0
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/MatrixMultiply.vue?vue&type=template&id=2e6fb1b0&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "flex justify-between" },
+      _vm._l(_vm.matrices, function(matrix, index) {
+        return _c("matrix", {
+          key: index,
+          staticClass: "m-4",
+          attrs: {
+            label: "Matrix " + (index + 1),
+            matrix: matrix,
+            index: index,
+            validated: _vm.validateMatrix(matrix),
+            matrixRowAndColCount: _vm.getMatrixRowAndColCount(matrix)
+          },
+          on: {
+            setMatrixValue: _vm.setMatrixValue,
+            updateMatrixStructure: _vm.updateMatrixStructure
+          }
+        })
+      }),
+      1
+    ),
+    _vm._v(" "),
+    !_vm.validateMatrices
+      ? _c("p", { staticClass: "text-red-500" }, [
+          _vm._v("\n        Matrices invalid to multiply\n    ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex justify-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "bg-blue-500 p-4 rounded-lg text-white w-40",
+          on: { click: _vm.multiply }
+        },
+        [_vm._v("Multiply")]
+      )
+    ]),
+    _vm._v(" "),
+    _vm.multipliedMatrix.length > 0
+      ? _c(
+          "div",
+          { staticClass: "flex justify-center" },
+          [
+            _c("matrix", {
+              attrs: {
+                label: "Answered Matrix",
+                editable: false,
+                matrix: _vm.multipliedMatrix
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ModifyMatrix.vue?vue&type=template&id=246310f4&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.stopPropagation()
+            return _vm.submitForm($event)
+          }
+        }
+      },
+      [
+        _c("div", [
+          _c("label", [
+            _vm._v("\n                Rows\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.rowCount,
+                  expression: "rowCount"
+                }
+              ],
+              staticClass: "border border-1 px-2 w-32",
+              attrs: { type: "number", min: "1", name: "rowcount" },
+              domProps: { value: _vm.rowCount },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.rowCount = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("label", [
+            _vm._v("\n                Columns\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.colCount,
+                  expression: "colCount"
+                }
+              ],
+              staticClass: "border border-1 px-2 w-32",
+              attrs: { type: "number", min: "1", name: "colcount" },
+              domProps: { value: _vm.colCount },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.colCount = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "py-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "bg-blue-500 p-2 rounded-lg text-white w-40",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("\n                Update\n            ")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=template&id=53f13272&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/app.vue?vue&type=template&id=53f13272& ***!
@@ -19376,9 +20229,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "text-red-600" }, [
-    _vm._v("\n    " + _vm._s(_vm.message) + "\n")
-  ])
+  return _c("div", {}, [_c("matrix-multiply")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
