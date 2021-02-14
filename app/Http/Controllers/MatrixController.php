@@ -2,39 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Trait\MatrixMultiplicationTrait;
 use Illuminate\Http\Request;
 
+/**
+ * Class MatrixController
+ * @package App\Http\Controllers
+ */
 class MatrixController extends Controller
 {
+    use MatrixMultiplicationTrait;
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function multiply(Request $request) {
+        $attributes = $request->all();
+        $arr1 = $attributes['matrices'][0];
+        $arr2 = $attributes['matrices'][1];
 
-        $result = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0],
-        ];
-        $arr1 = [
-            [1, 1, 1],
-            [1, 1, 1],
-            [1, 1, 1],
-        ];
-        $arr2 = [
-            [2, 2, 2],
-            [2, 2, 2],
-            [2, 2, 2],
-        ];
+        // todo add validation for matrix multiplication
 
-        // add validation for matrix multiplication
-
-        for($i=0; $i<3; $i++)
-        {
-            for($j=0; $j<3; $j++)
-            {
-//                Rows each element * columns each element. Add each then get one element
-                for($k=0; $k<3; $k++)
-                    $result[$i][$j] = $result[$i][$j] + $arr1[$i][$k] * $arr2[$k][$j];
-            }
-        }
+        $result = $this->multiplyMatrix($arr1, $arr2);
         return response()->json(['data' => $result]);
     }
 }

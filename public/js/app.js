@@ -1912,7 +1912,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     editable: {
       type: Boolean,
-      "default": false
+      "default": true
     }
   },
   methods: {
@@ -2011,8 +2011,7 @@ var getEmptyMatrix = function getEmptyMatrix(row, col) {
     validateMatrices: function validateMatrices() {
       var matrix1 = this.getMatrixRowAndColCount(this.matrices[0]);
       var matrix2 = this.getMatrixRowAndColCount(this.matrices[1]);
-      console.log(matrix1, matrix2, matrix1.rowCount === matrix2.colCount);
-      return matrix1.rowCount === matrix2.colCount;
+      return matrix1.colCount === matrix2.rowCount;
     }
   },
   methods: {

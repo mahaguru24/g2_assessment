@@ -64,8 +64,7 @@ export default {
         validateMatrices () {
             let matrix1 = this.getMatrixRowAndColCount(this.matrices[0])
             let matrix2 = this.getMatrixRowAndColCount(this.matrices[1])
-            console.log(matrix1, matrix2, matrix1.rowCount === matrix2.colCount)
-            return matrix1.rowCount === matrix2.colCount
+            return matrix1.colCount === matrix2.rowCount
         },
     },
     methods: {
