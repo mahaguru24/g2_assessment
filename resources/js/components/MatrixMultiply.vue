@@ -24,17 +24,14 @@
         <div v-if="multipliedMatrix.length > 0"
             class="flex justify-center"
         >
-            <matrix
-                label="Answered Matrix"
-                :editable="false"
-                :matrix="multipliedMatrix"
-            />
+            <answer-matrix :matrix="multipliedMatrix" />
         </div>
     </div>
 </template>
 
 <script>
 import Matrix from './Matrix';
+import AnswerMatrix from './AnswerMatrix';
 const getEmptyMatrix = (row, col) => {
     let matrix = [];
     for (let i = 0; i <= (row - 1); i++) {
@@ -49,7 +46,7 @@ const getEmptyMatrix = (row, col) => {
 }
 export default {
     name: 'MatrixMultiply',
-    components: {Matrix},
+    components: {AnswerMatrix, Matrix},
     data () {
         return {
             matrices: [

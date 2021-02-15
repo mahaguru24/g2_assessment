@@ -1,17 +1,16 @@
 <template>
     <div class="py-4">
         <div class="text-xl py-3 ">
-            {{label }}{{editable ? index + 1 : ''}}
+            {{label }} {{index + 1}}
         </div>
 
         <ModifyMatrix
-            v-if="editable"
             class="p-4 shadow rounded"
             @updateMatrixStructure="(val) => $emit('updateMatrixStructure', val)"
             :matrixRowAndColCount="matrixRowAndColCount" :index="index"
         />
 
-        <div :class="{'border border-1 border-red-600': !validated && editable}">
+        <div :class="{'border border-1 border-red-600': !validated }">
             <div v-for="(row, rowNumber) in matrix" :key="`${index}-row-${rowNumber}`" class="flex">
                 <div v-for="(col, colNumber) in row" :key="`${index}-col-${colNumber}`"
                      class=" m-2 p-2 shadow h-18 w-18 flex justify-center"
@@ -60,10 +59,6 @@ export default {
         validated: {
             type: Boolean,
             default: false
-        },
-        editable: {
-            type: Boolean,
-            default: true
         }
     },
     methods: {

@@ -19,7 +19,7 @@ trait MatrixMultiplicationTrait
         $in= count($arr2);
 
         if ( $in != count($arr1[0]) ) {
-           trigger_error('Matrix Multiplication not possible', E_USER_ERROR);
+           return ['error' => 'Matrix Multiplication not possible'];
         }
 
         for($i=0;$i< $r; $i++) {

@@ -10,7 +10,7 @@ class MatrixMultiplicationTraitTest extends TestCase
     use MatrixMultiplicationTrait;
 
     protected $testPassData = [
-      [
+        [
           'matrix1' => [
               [1, 1, 1],
               [1, 1, 1],
@@ -26,7 +26,36 @@ class MatrixMultiplicationTraitTest extends TestCase
               [6, 6, 6],
               [6, 6, 6],
           ]
-      ]
+        ],
+        [
+          'matrix1' => [
+              [1, 2, 3],
+              [4, 5, 6],
+          ],
+          'matrix2' => [
+              [7, 8],
+              [9, 10],
+              [11, 12],
+          ],
+          'result' => [
+              [58, 64],
+              [139, 154],
+          ]
+        ]
+    ];
+
+    protected $testFailData = [
+        [
+          'matrix1' => [
+              [1, 1],
+          ],
+          'matrix2' => [
+              [2, 2, 2],
+              [2, 2, 2],
+              [2, 2, 2],
+          ],
+          'result' => ['error' => 'Matrix Multiplication not possible']
+        ]
     ];
 
 
@@ -58,6 +87,15 @@ class MatrixMultiplicationTraitTest extends TestCase
      */
     public function testMultiplicationFail()
     {
-        // TODO :: implementation
+
+        foreach ($this->testFailData as $data) {
+
+            $result = $this->multiplyMatrix(
+                $data['matrix1'],
+                $data['matrix2']
+            );
+
+            $this->assertEquals($result , $data['result']);
+        }
     }
 }
